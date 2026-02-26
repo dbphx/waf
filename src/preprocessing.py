@@ -5,6 +5,41 @@ import urllib.parse
 from sklearn.model_selection import train_test_split
 import os
 
+def parse_http_string(payload):
+    """Shared logic to decompose raw HTTP snippets into standard fields."""
+    row = {"method": "GET", "path": "/", "query": "", "headers": "", "body": ""}
+    if not payload: return row
+    
+    # 1. Handle Method/Path pattern (e.g., 'GET /path?q=v {"body": 1}')
+    if payload.startswith(('GET ', 'POST ', 'PUT ', 'DELETE ')):
+        parts = payload.split(' ', 2)
+        row['method'] = parts[0]
+        if len(parts) > 1:
+            url_part = parts[1]
+            try:
+                p = urllib.parse.urlparse(url_part)
+                row['path'] = p.path
+                row['query'] = p.query
+            except:
+                row['path'] = url_part
+        if len(parts) > 2:
+            row['body'] = parts[2]
+            
+    # 2. Handle Body pattern (e.g., '{"key": "val"}')
+    elif payload.startswith(('{', '[')):
+        row['method'] = "POST"
+        row['body'] = payload
+        
+    # 3. Handle Query pattern (e.g., 'id=1&name=test')
+    elif any(sep in payload for sep in ['=', '&']) and ' ' not in payload:
+        row['query'] = payload
+    
+    # 4. Fallback: Entire string as payload-carrying header/path
+    else:
+        row['path'] = payload
+        
+    return row
+
 def clean_text(text):
     if not isinstance(text, str):
         return ""

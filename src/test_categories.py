@@ -21,15 +21,14 @@ def parse_file(filepath):
     return categories
 
 def run_categorical_test():
-    model_file = "/Users/dmac/Desktop/ml/models/model.joblib"
-    vectorizer_file = "/Users/dmac/Desktop/ml/models/vectorizer.joblib"
+    models_dir = "/Users/dmac/Desktop/ml/models"
     data_dir = "/Users/dmac/Desktop/ml/data"
     
-    if not (os.path.exists(model_file) and os.path.exists(vectorizer_file)):
+    if not (os.path.exists(os.path.join(models_dir, 'model.joblib'))):
         print("Error: Model files not found. Run train.py first.")
         return
 
-    predictor = HTTPAttackPredictor(model_file, vectorizer_file)
+    predictor = HTTPAttackPredictor(models_dir)
     
     test_files = [
         {"file": "attack.txt", "expected": "ATTACK"},
@@ -52,22 +51,21 @@ def run_categorical_test():
         categories = parse_file(path)
         for cat in categories:
             total += 1
-            # Run prediction
-            # Note: predictor.predict handles strings by treating them as headers/path content
-            res = predictor.predict(cat['payload'])
+            # Run prediction - returns (pred, conf)
+            pred, conf = predictor.predict(cat['payload'])
             
-            is_correct = res['prediction'] == tf['expected']
+            is_correct = pred == tf['expected']
             if is_correct: passed += 1
             
             status = "✅" if is_correct else "❌"
-            print(f"{cat['category'][:50]:<50} | {tf['expected']:<8} | {res['prediction']:<8} | {res['confidence']:.4f} | {status}")
+            print(f"{cat['category'][:50]:<50} | {tf['expected']:<8} | {pred:<8} | {conf:.4f} | {status}")
             
             results.append({
                 "category": cat['category'],
                 "payload": cat['payload'],
                 "expected": tf['expected'],
-                "predicted": res['prediction'],
-                "confidence": res['confidence'],
+                "predicted": pred,
+                "confidence": conf,
                 "correct": is_correct
             })
 

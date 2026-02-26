@@ -3,14 +3,13 @@ import os
 import json
 
 def main():
-    model_path = "/Users/dmac/Desktop/ml/models/model.joblib"
-    vectorizer_path = "/Users/dmac/Desktop/ml/models/vectorizer.joblib"
+    models_dir = "/Users/dmac/Desktop/ml/models"
     
-    if not os.path.exists(model_path) or not os.path.exists(vectorizer_path):
-        print("Error: Model or vectorizer not found. Please train the model first.")
+    if not os.path.exists(os.path.join(models_dir, 'model.joblib')):
+        print("Error: Model not found. Please train the model first.")
         return
 
-    predictor = HTTPAttackPredictor(model_path, vectorizer_path)
+    predictor = HTTPAttackPredictor(models_dir)
 
     # Mixed Sample: Normal and Attack Request Examples
     samples = [
@@ -21,7 +20,8 @@ def main():
                 "url": "/",
                 "headers": "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
                 "body": ""
-            }
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Attack: Simple SQL Injection in URL",
@@ -30,25 +30,28 @@ def main():
                 "url": "/api/users?id=1' OR '1'='1",
                 "headers": "User-Agent: curl/7.64.1",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Normal: Product Search",
             "data": {
                 "method": "GET",
-                "url": "/search?q=laptop&category=electronics",
+                "url": "/products?search=laptop&category=electronics",
                 "headers": "User-Agent: Mozilla/5.0",
                 "body": ""
-            }
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Attack: Cross-Site Scripting (XSS) in URL",
             "data": {
                 "method": "GET",
-                "url": "/search?q=<script>alert('pwned')</script>",
+                "url": "/search?q=<script>alert('XSS')</script>",
                 "headers": "User-Agent: Mozilla/5.0",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Normal: Login Attempt",
@@ -56,118 +59,138 @@ def main():
                 "method": "POST",
                 "url": "/login",
                 "headers": "Content-Type: application/x-www-form-urlencoded",
-                "body": "username=john_doe&password=secure_password123"
-            }
+                "body": "user=john&pass=doe"
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Attack: Command Injection in Body",
             "data": {
                 "method": "POST",
-                "url": "/api/system/ping",
+                "url": "/api/ping",
                 "headers": "Content-Type: application/json",
                 "body": '{"ip": "127.0.0.1; cat /etc/passwd"}'
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Attack: Path Traversal Attempt",
             "data": {
                 "method": "GET",
                 "url": "/view_file?file=../../../../etc/passwd",
-                "headers": "User-Agent: Mozilla/5.0",
+                "headers": "",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Normal: API Request with Auth Header",
             "data": {
                 "method": "GET",
                 "url": "/api/v1/profile",
-                "headers": "Authorization: Bearer my_secret_token_123; User-Agent: my-app/1.0",
+                "headers": "Authorization: Bearer valid_token_123",
                 "body": ""
-            }
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Attack: SQLi with Comments and Unconventional Case",
             "data": {
                 "method": "GET",
-                "url": "/products.php?id=10/**/uNioN/**/sElEcT/**/1,2,3,4,database(),6",
-                "headers": "User-Agent: Mozilla/5.0",
+                "url": "/posts?id=1/*UNION*/sELecT/**/password/**/fRoM/**/users",
+                "headers": "",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Attack: Blind SQLi (Time-based)",
             "data": {
-                "method": "POST",
-                "url": "/login",
-                "headers": "Content-Type: application/x-www-form-urlencoded",
-                "body": "user=admin' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--"
-            }
+                "method": "GET",
+                "url": "/vulnerable.php?id=1-SLEEP(5)",
+                "headers": "",
+                "body": ""
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Attack: Reflected XSS (Event Handler)",
             "data": {
                 "method": "GET",
-                "url": "/profile?name=Guest<img src=x onerror=alert(document.cookie)>",
-                "headers": "User-Agent: Mozilla/5.0",
+                "url": "/search?q=<img src=x onerror=alert(1)>",
+                "headers": "",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Attack: Local File Inclusion (LFI) via wrapper",
             "data": {
                 "method": "GET",
-                "url": "/page?file=php://filter/convert.base64-encode/resource=config.php",
-                "headers": "User-Agent: Mozilla/5.0",
+                "url": "/index.php?page=php://filter/convert.base64-encode/resource=config.php",
+                "headers": "",
                 "body": ""
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Attack: NoSQL Injection",
             "data": {
                 "method": "POST",
-                "url": "/api/v1/users",
+                "url": "/api/login",
                 "headers": "Content-Type: application/json",
                 "body": '{"username": {"$gt": ""}, "password": {"$gt": ""}}'
-            }
+            },
+            "expected": "ATTACK"
         },
         {
             "description": "Normal: Complex JSON Payload",
             "data": {
                 "method": "POST",
-                "url": "/api/v1/update_config",
-                "headers": "Content-Type: application/json; Authorization: Bearer xxxx",
-                "body": '{"retry_count": 3, "timeout_ms": 5000, "endpoints": ["https://api1.local", "https://api2.local"]}'
-            }
+                "url": "/api/data",
+                "headers": "Content-Type: application/json",
+                "body": '{"metadata": {"version": "1.0", "encoding": "UTF-8"}, "items": [{"id": 1, "tags": ["tag1", "tag2"]}]}'
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Normal: Search with Special Characters (Non-malicious)",
             "data": {
                 "method": "GET",
-                "url": "/search?q=C++#Programming&lang=en",
-                "headers": "User-Agent: Googlebot/2.1",
+                "url": "/products?filter=price > 100 AND category IN ('books', 'games')",
+                "headers": "",
                 "body": ""
-            }
+            },
+            "expected": "NORMAL"
         },
         {
             "description": "Normal: Large Encoded Data (Base64)",
             "data": {
                 "method": "POST",
-                "url": "/upload",
+                "url": "/api/upload",
                 "headers": "Content-Type: application/json",
-                "body": '{"filename": "test.txt", "content": "SGVsbG8gV29ybGQhIHRoaXMgaXMgYSBub3JtYWwgYmFzZTY0IHN0cmluZy4="}'
-            }
+                "body": '{"filename": "image.png", "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="}'
+            },
+            "expected": "NORMAL"
         }
     ]
 
-    print(f"{'Description':<40} | {'Prediction':<10} | {'Confidence'}")
-    print("-" * 70)
+    print(f"{'Description':<50} | {'Result':<10} | {'Confidence':<10} | Status")
+    print("-" * 85)
 
+    passed = 0
     for sample in samples:
-        result = predictor.predict(sample['data'])
-        prediction = result['prediction']
-        confidence = result['confidence']
-        print(f"{sample['description']:<40} | {prediction:<10} | {confidence:.4f}")
+        # returns (pred, conf)
+        pred, conf = predictor.predict(sample['data'])
+        is_correct = pred == sample['expected']
+        if is_correct:
+            passed += 1
+        
+        status = "✅" if is_correct else "❌"
+        print(f"{sample['description']:<50} | {pred:<10} | {conf:<10.4f} | {status}")
+
+    print("-" * 85)
+    print(f"Passed {passed}/{len(samples)} samples.")
 
 if __name__ == "__main__":
     main()

@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import entropy
 import joblib
 import os
+import re
 
 class FeatureEngineer:
     def __init__(self, vectorizer_path=None):
@@ -13,14 +14,13 @@ class FeatureEngineer:
             self.vectorizer = TfidfVectorizer(
                 analyzer='char',
                 ngram_range=(2, 5),
-                max_features=10000,
+                max_features=20000,
                 lowercase=True
             )
 
     def get_statistical_features(self, text_series):
         features = pd.DataFrame()
         features['length'] = text_series.apply(len)
-        features['special_chars_count'] = text_series.apply(lambda x: len([c for c in x if c in "'\";<>(){}[]/\\%"]))
         
         def calc_entropy(text):
             if not text: return 0
@@ -29,13 +29,12 @@ class FeatureEngineer:
         
         features['entropy'] = text_series.apply(calc_entropy)
         
-        # Keyword frequencies (normalized)
+        # Keyword frequencies
         keywords = [
-            'select', 'union', 'insert', 'update', 'delete', 'drop', 
+            'select', 'union', 'insert', 'update', 'delete', 'drop', 'from', 'where',
             'script', 'alert', 'onerror', 'eval', '../', './',
-            '${', '{{', '}}', '() {', ';', '||', '&&', '$(',
-            'http://', 'https://', '169.254', '0x', 'entity',
-            '__schema', '__proto__', 'javascript:', 'data:', 'vbscript:'
+            '${', '{{', '}}', '() {', ';', '|', '&',
+            '$gt', '$ne', '$in', 'cat ', 'whoami'
         ]
         for kw in keywords:
             features[f'kw_{kw}'] = text_series.apply(lambda x: x.count(kw) / (len(x) + 1))
@@ -43,17 +42,15 @@ class FeatureEngineer:
         return features
 
     def extract_text(self, row):
-        """Unified text extraction for consistency between training and prediction."""
-        # Row is now expected to have the standard schema:
-        # method, path, query, headers, body, ua
-        method = str(row.get('method', ''))
-        path = str(row.get('path', ''))
-        query = str(row.get('query', ''))
-        headers = str(row.get('headers', ''))
-        body = str(row.get('body', ''))
-        ua = str(row.get('ua', ''))
+        """Standard bag-of-fragments extraction."""
+        fields = ['path', 'query', 'headers', 'body']
+        vals = []
+        for f in fields:
+            v = str(row.get(f, '')).strip()
+            if v and v.lower() != 'nan':
+                vals.append(v)
         
-        return f"{path} {query} {headers} {body}"
+        return " ".join(vals)
 
     def fit(self, df):
         print("Standardizing text for training...")
@@ -89,18 +86,4 @@ class FeatureEngineer:
         joblib.dump(self.vectorizer, path)
 
 if __name__ == "__main__":
-    # Test feature engineering
-    processed_dir = "/Users/dmac/Desktop/ml/data/processed"
-    train_df = pd.read_csv(os.path.join(processed_dir, 'train.csv'))
-    
-    fe = FeatureEngineer()
-    print("Fitting vectorizer...")
-    fe.fit(train_df['cleaned_text'].fillna(""))
-    
-    print("Transforming training data...")
-    X_train = fe.transform(train_df['cleaned_text'].fillna(""))
-    print(f"Feature matrix shape: {X_train.shape}")
-    
-    os.makedirs("/Users/dmac/Desktop/ml/models", exist_ok=True)
-    fe.save("/Users/dmac/Desktop/ml/models/vectorizer.joblib")
-    print("Vectorizer saved.")
+    pass
