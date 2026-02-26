@@ -11,12 +11,14 @@ This project implements a high-performance Web Application Firewall (WAF) detect
 
 ```
 .
-├── go/                      # Native Golang WAF implementation
+├── application/go/          # REUSABLE WAF Libraries
+│   └── logistic_regression/ # Go-native detector library
+├── go/                      # CLI & Simulation Tool (standalone)
 │   ├── internal/assets/     # Exported ONNX model & Metadata
-│   ├── internal/features/   # Go-native feature engineering (TF-IDF/entropy)
-│   └── main.go              # CLI detector & HTTP simulation tool
+│   ├── internal/features/   # Feature engineering logic
+│   └── main.go              # CLI detector & simulation tool
 ├── src/                     # Training & Export (Python)
-│   ├── standardize_data.py  # Advanced data pipeline (Balanced Pool)
+│   ├── standardize_data.py  # Advanced data pipeline
 │   ├── train.py             # Logistic Regression training
 │   ├── export_for_go.py     # ONNX export script
 │   ├── test_categories.py   # 210-category regression suite
@@ -26,7 +28,25 @@ This project implements a high-performance Web Application Firewall (WAF) detect
 └── README.md
 ```
 
-## Golang Usage (Native Production)
+## Golang Library Usage (Recommended)
+
+The library at **`application/go/logistic_regression`** is the recommended way to integrate the WAF into your Go applications.
+
+```go
+import "logistic_regression"
+
+// Initialize the detector
+detector, err := logistic_regression.NewDetector(modelPath, metaPath, sharedLibPath)
+
+// Predict from a map of request components
+request := map[string]string{
+    "path":  "/api/v1/user",
+    "query": "id=1' OR '1'='1",
+}
+isAttack := detector.Predict(request)
+```
+
+## Golang CLI & Simulation
 
 ### 1. Build
 Ensure you have the ONNX shared library on your system path.

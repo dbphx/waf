@@ -51,7 +51,31 @@ func ParseHTTPRequest(payload string) map[string]string {
 			}
 		}
 		if len(parts) > 2 {
-			row["body"] = parts[2]
+			rest := parts[2]
+			// If there's a double newline, split into headers and body
+			if strings.Contains(rest, "\n\n") {
+				subParts := strings.SplitN(rest, "\n\n", 2)
+				row["headers"] = strings.TrimSpace(subParts[0])
+				row["body"] = strings.TrimSpace(subParts[1])
+			} else if strings.Contains(rest, ": ") {
+				// If it looks like headers but no double newline, try to split at first non-header-looking line
+				lines := strings.Split(rest, "\n")
+				var headers []string
+				var body []string
+				inBody := false
+				for _, line := range lines {
+					if !inBody && (strings.Contains(line, ": ") || line == "") {
+						headers = append(headers, line)
+					} else {
+						inBody = true
+						body = append(body, line)
+					}
+				}
+				row["headers"] = strings.TrimSpace(strings.Join(headers, "\n"))
+				row["body"] = strings.TrimSpace(strings.Join(body, "\n"))
+			} else {
+				row["body"] = rest
+			}
 		}
 	} else if strings.HasPrefix(payload, "{") || strings.HasPrefix(payload, "[") {
 		// 2. Handle Body pattern

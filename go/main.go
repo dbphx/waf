@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 	"waf-detector/internal/features"
 
 	ort "github.com/yalue/onnxruntime_go"
@@ -16,7 +17,7 @@ func main() {
 	}
 
 	payload := os.Args[1]
-
+	now := time.Now()
 	// 1. Load Metadata
 	metaPath := "internal/assets/model_metadata.json"
 	metaFile, err := os.Open(metaPath)
@@ -40,6 +41,7 @@ func main() {
 	fmt.Printf("Method:  %s\n", requestFields["method"])
 	fmt.Printf("Path:    %s\n", requestFields["path"])
 	fmt.Printf("Query:   %s\n", requestFields["query"])
+	fmt.Printf("Headers: %s\n", requestFields["headers"])
 	fmt.Printf("Body:    %s\n", requestFields["body"])
 	fmt.Printf("Combined for Prediction: %s\n", combinedText)
 	fmt.Printf("--------------------------\n")
@@ -102,20 +104,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	labels := outputTensor1.GetData()
+	// session.Run() already filled the tensors
 	probsData := outputTensor2.GetData()
 
-	prediction := "NORMAL"
-	if labels[0] == 1 {
-		prediction = "ATTACK"
-	}
-
 	prob := float64(probsData[1])
-	confidence := prob
-	if prob < 0.7 {
-		confidence = 1.0 - prob
+	prediction := "NORMAL"
+	confidence := 1.0 - prob
+	if prob >= 0.7 {
+		prediction = "ATTACK"
+		confidence = prob
 	}
 
 	fmt.Printf("Prediction: %s\n", prediction)
 	fmt.Printf("Confidence: %.4f\n", confidence)
+	fmt.Printf("Time: %s\n", time.Since(now))
 }
