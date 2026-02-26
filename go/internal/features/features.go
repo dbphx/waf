@@ -15,6 +15,59 @@ type Metadata struct {
 	Keywords    []string  `json:"keywords"`
 }
 
+func ParseHTTPRequest(payload string) map[string]string {
+	row := map[string]string{
+		"method":  "GET",
+		"path":    "/",
+		"query":   "",
+		"headers": "",
+		"body":    "",
+	}
+	if payload == "" {
+		return row
+	}
+
+	// 1. Handle Method/Path pattern (e.g., 'GET /path?q=v {"body": 1}')
+	prefixes := []string{"GET ", "POST ", "PUT ", "DELETE "}
+	hasPrefix := false
+	for _, p := range prefixes {
+		if strings.HasPrefix(payload, p) {
+			hasPrefix = true
+			break
+		}
+	}
+
+	if hasPrefix {
+		parts := strings.SplitN(payload, " ", 3)
+		row["method"] = parts[0]
+		if len(parts) > 1 {
+			urlPart := parts[1]
+			u, err := url.Parse(urlPart)
+			if err == nil {
+				row["path"] = u.Path
+				row["query"] = u.RawQuery
+			} else {
+				row["path"] = urlPart
+			}
+		}
+		if len(parts) > 2 {
+			row["body"] = parts[2]
+		}
+	} else if strings.HasPrefix(payload, "{") || strings.HasPrefix(payload, "[") {
+		// 2. Handle Body pattern
+		row["method"] = "POST"
+		row["body"] = payload
+	} else if (strings.Contains(payload, "=") || strings.Contains(payload, "&")) && !strings.Contains(payload, " ") {
+		// 3. Handle Query pattern
+		row["query"] = payload
+	} else {
+		// 4. Fallback
+		row["path"] = payload
+	}
+
+	return row
+}
+
 func CleanText(text string) string {
 	text = strings.ToLower(text)
 

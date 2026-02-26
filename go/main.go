@@ -32,8 +32,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	// 2. Generate Features
-	vector := features.GenerateFeatureVector(payload, &meta)
+	// 2. Simulation: Parse and Combine
+	requestFields := features.ParseHTTPRequest(payload)
+	combinedText := features.ExtractText(requestFields)
+
+	fmt.Printf("--- Request Simulation ---\n")
+	fmt.Printf("Method:  %s\n", requestFields["method"])
+	fmt.Printf("Path:    %s\n", requestFields["path"])
+	fmt.Printf("Query:   %s\n", requestFields["query"])
+	fmt.Printf("Body:    %s\n", requestFields["body"])
+	fmt.Printf("Combined for Prediction: %s\n", combinedText)
+	fmt.Printf("--------------------------\n")
+
+	// Generate feature vector
+	vector := features.GenerateFeatureVector(combinedText, &meta)
 
 	// Create float32 vector since ORT often uses float32
 	vec32 := make([]float32, len(vector))
@@ -104,7 +116,6 @@ func main() {
 		confidence = 1.0 - prob
 	}
 
-	fmt.Printf("Payload: %s\n", payload)
 	fmt.Printf("Prediction: %s\n", prediction)
 	fmt.Printf("Confidence: %.4f\n", confidence)
 }
