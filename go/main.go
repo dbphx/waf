@@ -19,7 +19,7 @@ func main() {
 	payload := os.Args[1]
 	now := time.Now()
 	// 1. Load Metadata
-	metaPath := "internal/assets/model_metadata.json"
+	metaPath := "internal/assets/logistic_regression/model_metadata.json"
 	metaFile, err := os.Open(metaPath)
 	if err != nil {
 		fmt.Printf("Error: Could not open metadata at %s: %v\n", metaPath, err)
@@ -63,7 +63,7 @@ func main() {
 	}
 	defer ort.DestroyEnvironment()
 
-	onnxPath := "internal/assets/model.onnx"
+	onnxPath := "internal/assets/logistic_regression/model.onnx"
 
 	inputShape := ort.NewShape(1, int64(len(vec32)))
 	inputTensor, _ := ort.NewTensor(inputShape, vec32)

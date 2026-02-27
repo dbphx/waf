@@ -14,16 +14,20 @@ This project implements a high-performance Web Application Firewall (WAF) detect
 ├── application/go/          # REUSABLE WAF Libraries
 │   └── logistic_regression/ # Go-native detector library
 ├── go/                      # CLI & Simulation Tool (standalone)
-│   ├── internal/assets/     # Exported ONNX model & Metadata
+│   ├── internal/assets/
+│   │   └── logistic_regression/ # Model & Metadata
 │   ├── internal/features/   # Feature engineering logic
 │   └── main.go              # CLI detector & simulation tool
-├── src/                     # Training & Export (Python)
-│   ├── standardize_data.py  # Advanced data pipeline
-│   ├── train.py             # Logistic Regression training
-│   ├── export_for_go.py     # ONNX export script
-│   ├── test_categories.py   # 210-category regression suite
-│   └── test_samples.py      # Manual validation suite
-├── models/                  # Joblib originals (Scikit-Learn)
+├── src/                     # Source Code
+│   ├── logistic_regression/ # Model-specific scripts
+│   │   ├── train.py
+│   │   ├── export_for_go.py
+│   │   └── export_if_missing.py # NEW: Conditional export
+│   ├── feature_engineering.py # Shared logic
+│   ├── preprocessing.py     # Shared logic
+│   └── standardize_data.py  # Shared pipeline
+├── models/
+│   └── logistic_regression/ # Organized assets
 ├── data/                    # Attack and Normal text datasets
 └── README.md
 ```

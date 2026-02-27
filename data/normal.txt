@@ -104,3 +104,54 @@ Categories of Normal Traffic (50 Categories)
 102. Test2: GET /id?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIzNTEwMzcsImlhdCI6MTc3MjA5MTgzNywidXNlciI6eyJzZXNzaW9uX2lkIjoiMDE5Yzk4ZTctOGFjMi03Mjc0LWFkM2EtMmRiNzFhZTYzZThlIiwic291cmNlIjoiQk8iLCJzdGFmZl9jb2RlIjoibGluaGxoMiIsInVzZXJfZW1haWwiOiJsaW5obGgyQHZucGF5LnZuIiwidXNlcl9mdWxsX25hbWUiOiJMaW5oIEzDqiBIw
 103. Test3: GET /?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxODE2MDMsImlhdCI6MTc3MTkyMjQwMywidXNlciI6eyJncm91cF9pZCI6IjAxOWMwZTZlLWI0YTctNzRjYS05MGNlLTUyY2M0Njg5MzZjZSIsImxlYWRlcl9pZCI6IjAxOWMwOWU0LTNmY2QtNzc2ZS05ZGUwLWFiZGYyZjI3ZTYwMyIsInNlc3Npb25faWQiOiIwMTljOGVjZS0zMTkyLTc4MjQtYTI1OS0zZDZmM2JhM2NkM
 104. Only slash: GET /ducbph {UA: curl}
+105. FP1: /Rnj7kZj.jpeg?q=_I%20would%20like%20to%20see%20the%20runtime%20for%20the%20payload,%20please.
+106. FP2: /Rnj7kZj.jpeg?q=The%20standard%20for%20the%20<$%20tag%20is%20to%20enclose%20text%20or%20code%20that%20should%20b%20e%20interpreted%20as%20a%20dollar%20amount.
+107. FP3: //pvc-6464b4a6-d52b-4047-933a-2053ba4bef52/uploads/2026/02/05/6984113492b5b92036eb94ff.mp4?q=The%20standard%20for%20the%20<$%20tag%20is%20to%20enclose%20text%20or%20code%20that%20should%20b%20e%20interpreted%20as%20a%20dollar%20amount.108. FP_PDF_1: Test set Test case Percentage Blocked Bypassed Unresolved Sent Failed false-pos texts 0.00% 47 0 0 47 0 True Negative Tests 0 true-negative requests identified as bypassed (test passed, good behavior) 47 true-negative requests identified as blocked (test failed, bad behavior) Payload Test case Encoder Placeholder Status )I would like to request information about the address: (#)saddr for the next minute.
+109. FP_PDF_2: ,I would like to request information about the shadow EXFFJT.
+110. FP_PDF_3: 1) a-b=c
+111. FP_PDF_4: =Can I please adjust_campaign:sign?
+112. FP_PDF_5: >url=/pi?mode=<;>
+113. FP_PDF_6: D'or 1st parfume
+114. FP_PDF_7: DEAR FINN,--I think it would do; copy should reach us second post
+115. FP_PDF_8: DELETE 75oBC$
+116. FP_PDF_9: I setted the COOKIE value to : expandGeoJsonFeatures=true;
+117. FP_PDF_10: I would like to be notified when the ASIN: B07JJS7WY7 is back in sto ck.
+118. FP_PDF_11: I would like to keep-alive my connection and have the full_text of t he article, please.
+119. FP_PDF_12: I would like to request a random number between 1 and 10, please.
+120. FP_PDF_13: I would like to request information about the idv_msdb database.
+121. FP_PDF_14: I would like to request the bin with app_id: (]
+122. FP_PDF_15: I would like to request the local version of the website in French, so I will include the parameter "hl=fr"
+123. FP_PDF_16: I would like to search for the string "%t" please.
+124. FP_PDF_17: I would like to see a list of drivers sorted in reverse order.
+125. FP_PDF_18: If the subject parameter is greater than 0, then return a list of al l articles with that subject.
+126. FP_PDF_19: JavaScript: Basics of JavaScript Language
+127. FP_PDF_20: MKCALENDAR cursor:I would like to create a new calendar called "curs or" please.
+128. FP_PDF_21: The Senora found herself a heroine; more than that, she became aware
+129. FP_PDF_22: The parameter 5 is&|.
+130. FP_PDF_23: The standard for the <$ tag is to enclose text or code that should b e interpreted as a dollar amount.
+131. FP_PDF_24: [Host: type: {[
+132. FP_PDF_25: _I would like to see the runtime for the payload, please.
+133. FP_PDF_26: _SELECT all the rows of fromDate = @-_
+134. FP_PDF_27: and &IN=color&=
+135. FP_PDF_28: and =IS=C5HF95_=
+136. FP_PDF_29: and >I would like to see all of the items that are type <enter type here>.
+137. FP_PDF_30: bash away in the gym
+138. FP_PDF_31: curl and divergence
+139. FP_PDF_32: echo in the mirror
+140. FP_PDF_33: exec noun
+141. FP_PDF_34: h2<h1
+142. FP_PDF_35: java lang courses
+143. FP_PDF_36: john+or@var.es
+144. FP_PDF_37: lhttps://www.instagram.com/p/B_uHgI7lY0Z/?igshid=1m7xkk7a9v6z4&utm_s ource=ig_web_copy_linkCan I please get the id for the user that I am trying to follow?
+145. FP_PDF_38: ls 300 lexus
+146. FP_PDF_39: nc 8000 controller
+147. FP_PDF_40: time he came.
+148. FP_PDF_41: union was a great select
+149. FP_PDF_42: url=/?usr=subject;-
+150. FP_PDF_43: url=/maps/api/geocode/json?address=Reader&daddr=!
+151. FP_PDF_44: url=http://www.example.com/tan?usp=4#8
+152. FP_PDF_45: url=https://api.twitter.com/1.1/statuses/user_timeline.json?screen_n ame=twitterapi&count=2&include_rts=1&exclude_replies=1
+153. FP_PDF_46: zsh is the best!
+154. FP_PDF_47: }I would like to request the /cc serviceCode with the parameter: ser viceCode|{}
+155. Fix_Samples_1: POST /api/upload {"filename": "image.png", "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="}
+156. FP_PDF_48: /admin/login?q=_I%20would%20like%20to%20see%20the%20runtime%20for%20the%20payload,%20please.

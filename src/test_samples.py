@@ -1,12 +1,14 @@
-from predict import HTTPAttackPredictor
+import sys
 import os
 import json
+sys.path.append(os.path.join(os.path.dirname(__file__), 'logistic_regression'))
+from predict import HTTPAttackPredictor
 
 def main():
-    models_dir = "/Users/dmac/Desktop/ml/models"
+    models_dir = "/Users/dmac/Desktop/ml/models/logistic_regression"
     
     if not os.path.exists(os.path.join(models_dir, 'model.joblib')):
-        print("Error: Model not found. Please train the model first.")
+        print(f"Error: Model not found at {models_dir}. Please train the model first.")
         return
 
     predictor = HTTPAttackPredictor(models_dir)
