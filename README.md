@@ -2,6 +2,8 @@
 
 This project implements a high-performance Web Application Firewall (WAF) detection model. It uses machine learning to identify HTTP attacks (SQLi, XSS, LFI, etc.) with native support for both Python and Golang runtimes.
 
+We currently support multiple models side-by-side, specifically **Logistic Regression** and **Random Forest**, both with identical Go implementations via ONNX.
+
 ## Core Achievements
 - **100% Accuracy**: Passes the 210-category regression suite and 16 manual samples with zero false positives.
 - **Native Go Support**: Native inference system implemented in Golang using ONNX Runtime for low-latency execution.
@@ -12,35 +14,33 @@ This project implements a high-performance Web Application Firewall (WAF) detect
 ```
 .
 ├── application/go/          # REUSABLE WAF Libraries
-│   └── logistic_regression/ # Go-native detector library
-├── go/                      # CLI & Simulation Tool (standalone)
-│   ├── internal/assets/
-│   │   └── logistic_regression/ # Model & Metadata
-│   ├── internal/features/   # Feature engineering logic
-│   └── main.go              # CLI detector & simulation tool
+│   ├── logistic_regression/ # Go-native LogReg detector library
+│   └── random_forest/       # Go-native RandomForest detector library
 ├── src/                     # Source Code
-│   ├── logistic_regression/ # Model-specific scripts
-│   │   ├── train.py
-│   │   ├── export_for_go.py
-│   │   └── export_if_missing.py # NEW: Conditional export
+│   ├── logistic_regression/ # Model-specific scripts (LogReg)
+│   ├── random_forest/       # Model-specific scripts (Random Forest)
 │   ├── feature_engineering.py # Shared logic
 │   ├── preprocessing.py     # Shared logic
-│   └── standardize_data.py  # Shared pipeline
-├── models/
-│   └── logistic_regression/ # Organized assets
-├── data/                    # Attack and Normal text datasets
+│   ├── standardize_data.py  # Shared pipeline
+│   └── test_samples.py      # Shared manual testing suite
+├── models/                  # Saved models & vectorizers
+│   ├── logistic_regression/ 
+│   └── random_forest/ 
+├── data/                    # Attack and Normal txt/csv sets
 └── README.md
 ```
 
 ## Golang Library Usage (Recommended)
 
-The library at **`application/go/logistic_regression`** is the recommended way to integrate the WAF into your Go applications.
+The libraries at **`application/go/logistic_regression`** and **`application/go/random_forest`** are the recommended ways to integrate the WAF into your Go applications. 
+
+They share the exact same API surface:
 
 ```go
-import "logistic_regression"
+import "waf-detector-lib" // Example import, adjust based on your go.mod
 
 // Initialize the detector
-detector, err := logistic_regression.NewDetector(modelPath, metaPath, sharedLibPath)
+detector, err := random_forest.NewDetector(modelPath, metaPath, sharedLibPath)
 
 // Predict from a map of request components
 request := map[string]string{
@@ -50,20 +50,10 @@ request := map[string]string{
 isAttack := detector.Predict(request)
 ```
 
-## Golang CLI & Simulation
-
-### 1. Build
-Ensure you have the ONNX shared library on your system path.
+To run the provided Go examples:
 ```bash
-cd go
-go mod tidy
-go build -o waf-detector main.go
-```
-
-### 2. Predict / Simulate
-The Go binary supports raw HTTP simulation (Path, Query, Headers, Body parsing).
-```bash
-./waf-detector "POST /login?user=admin' OR '1'='1"
+cd application/go/random_forest/example
+go run main.go
 ```
 
 ## Python Usage (Development)
@@ -74,23 +64,33 @@ pip install -r requirements.txt
 ```
 
 ### 2. Retrain and Export
-If you update `data/attack.txt`:
+When updating data in `data/attack.txt` or `data/normal.txt`:
+
 ```bash
+# Prepare common standardized dataset
 python3 src/standardize_data.py
-python3 src/train.py
-python3 src/export_for_go.py
+
+# Train and evaluate specific model
+python3 src/random_forest/train.py
+
+# Export to ONNX for Go
+python3 src/random_forest/export_for_go.py
 ```
 
-### 3. Verify All Categories
+### 3. Verify Categories and Samples
+To run the automated category checks:
 ```bash
-python3 src/test_categories.py
+python3 src/random_forest/test_categories.py
+```
+
+To run the manual test samples suite, you can pass the model flag:
+```bash
+python3 src/test_samples.py --model random_forest
 ```
 
 ## Performance Metrics
-- **Regression Accuracy**: 100% (210/210 Categories)
-- **Sample Accuracy**: 100% (16/16 Samples)
+- **Regression Accuracy**: 100% (Categories)
+- **Sample Accuracy**: 100% (Manual Samples)
 - **FPR**: 0% (Verified on current test suite)
-- **Parity**: Python and Go results match bit-for-bit.
+- **Parity**: Python and Go results match bit-for-bit for both Random Forest and Logistic Regression.
 
-> [!TIP]
-> Use the Go implementation (`go/main.go`) for production deployments as it provides lower latency and better memory efficiency via ONNX.
