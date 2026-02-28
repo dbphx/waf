@@ -13,21 +13,38 @@ We currently support multiple models side-by-side, specifically **Logistic Regre
 
 ```
 .
-├── application/go/          # REUSABLE WAF Libraries
-│   ├── logistic_regression/ # Go-native LogReg detector library
-│   └── random_forest/       # Go-native RandomForest detector library
-├── src/                     # Source Code
-│   ├── logistic_regression/ # Model-specific scripts (LogReg)
-│   ├── random_forest/       # Model-specific scripts (Random Forest)
-│   ├── feature_engineering.py # Shared logic
-│   ├── preprocessing.py     # Shared logic
-│   ├── standardize_data.py  # Shared pipeline
-│   └── test_samples.py      # Shared manual testing suite
-├── models/                  # Saved models & vectorizers
-│   ├── logistic_regression/ 
-│   └── random_forest/ 
-├── data/                    # Attack and Normal txt/csv sets
-└── README.md
+├── README.md
+├── application/
+│   └── go/                      # REUSABLE WAF Libraries
+│       ├── logistic_regression/ # Go-native LogReg detector library
+│       └── random_forest/       # Go-native RandomForest detector library
+├── data/                        # Datasets (attack.txt, normal.txt)
+│   ├── processed/               # Standardized split data
+│   └── raw/
+├── models/                      # Saved models & vectorizers
+│   ├── logistic_regression/
+│   │   ├── model.joblib
+│   │   └── vectorizer.joblib
+│   └── random_forest/
+│       ├── model.joblib
+│       └── vectorizer.joblib
+└── src/                         # Source Code
+    ├── feature_engineering.py   # Shared ML components
+    ├── preprocessing.py         # Data processing logic
+    ├── standardize_data.py      # Data preparation pipeline
+    ├── test_samples.py          # Unified CLI tester
+    ├── logistic_regression/     # LogReg scripts
+    │   ├── evaluate.py
+    │   ├── export_for_go.py
+    │   ├── predict.py
+    │   ├── test_categories.py
+    │   └── train.py
+    └── random_forest/           # Random Forest scripts
+        ├── check_parity.py      
+        ├── export_for_go.py
+        ├── predict.py
+        ├── test_categories.py
+        └── train.py
 ```
 
 ## Golang Library Usage (Recommended)
