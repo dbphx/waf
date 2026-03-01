@@ -105,9 +105,14 @@ To run the manual test samples suite, you can pass the model flag:
 python3 src/test_samples.py --model random_forest
 ```
 
-## Performance Metrics
-- **Regression Accuracy**: 100% (Categories)
-- **Sample Accuracy**: 100% (Manual Samples)
-- **FPR**: 0% (Verified on current test suite)
-- **Parity**: Python and Go results match bit-for-bit for both Random Forest and Logistic Regression.
+## Model Comparison & Performance Metrics
+
+| Model | Regression Accuracy | False Positives | False Negatives | Architecture |
+| ----- | ------------------- | --------------- | --------------- | ------------ |
+| **Logistic Regression** | 100.00% | 0 (0.00%) | 0 (0.00%) | TF-IDF + Logistic Regression (Lightweight, Fastest) |
+| **Random Forest** | 100.00% | 0 (0.00%) | 0 (0.00%) | TF-IDF + Random Forest (Balanced) |
+| **DistilBERT (bert_uncased)** | 98.36% | 6 (3.87%) | 0 (0.00%) | Transformer (High contextual understanding) |
+
+- **Sample Accuracy**: Passes the manual samples with expected detections.
+- **Parity**: Python and Go runtime predictions match consistently via ONNX Runtime deployments.
 
